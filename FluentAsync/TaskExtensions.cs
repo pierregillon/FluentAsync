@@ -33,6 +33,13 @@ namespace FluentAsync
         public static async Task<IReadOnlyCollection<T>> EnumerateAsync<T>(this Task<IEnumerable<T>> enumerable)
             => (await enumerable).ToArray();
 
+        /// <summary>
+        /// Asynchronously groups elements of a sequence according to a specified key selector function.
+        /// </summary>
+        /// <returns>An enumerable of groups and for each the key and elements matching the key selector function.</returns>
+        public static async Task<IEnumerable<IGrouping<TKey, T>>> GroupByAsync<T, TKey>(this Task<IEnumerable<T>> enumerable, Func<T, TKey> keySelector)
+            => (await enumerable).GroupBy(keySelector);
+
 
         #region ToEnumerableTask
 
