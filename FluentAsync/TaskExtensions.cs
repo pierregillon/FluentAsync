@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,10 +34,16 @@ namespace FluentAsync
             => (await enumerable).ToArray();
 
 
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IEnumerable<T>> enumerable) => await enumerable;
+        #region ToEnumerableTask
+
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<List<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<T[]> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyCollection<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyList<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<HashSet<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<ICollection<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<Collection<T>> enumerable) => await enumerable;
+
+        #endregion
     }
 }
