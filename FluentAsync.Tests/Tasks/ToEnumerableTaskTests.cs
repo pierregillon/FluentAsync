@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace FluentAsync.Tests
+namespace FluentAsync.Tests.Tasks
 {
     public class ToEnumerableTaskTests
     {

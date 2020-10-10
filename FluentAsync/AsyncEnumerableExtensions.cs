@@ -7,7 +7,7 @@ namespace FluentAsync
     {
         /// <summary>
         /// Enumerate all the elements of the async enumerable and returns a collection result.
-        /// Warning : be aware that if the async enumerable is an infinite loop enumeration, this method would block the current thread for ever.
+        /// Warning : be aware that if the async enumerable is an infinite loop enumeration, this method will block the current thread for ever.
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="enumerable"></param>
