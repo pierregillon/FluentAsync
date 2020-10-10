@@ -11,11 +11,11 @@ namespace FluentAsync.Tests
         [Theory]
         [InlineData(100)]
         [InlineData(4)]
-        public async Task WhenAll(int count)
+        public async Task EnumerableAllElementsOfAnAsyncEnumerable(int count)
         {
             var numberGenerator = new NumberGenerator();
 
-            var numbers = await numberGenerator.GenerateNumbers(count).WhenAll();
+            var numbers = await numberGenerator.GenerateNumbers(count).EnumerateAll();
 
             numbers.Should().HaveCount(count);
         }
