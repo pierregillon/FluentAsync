@@ -25,7 +25,7 @@ namespace FluentAsync
             => (await enumerable).Select(projection);
 
         /// <summary>
-        /// Enumerable the task and retrieve readonly result.
+        /// Enumerable the task enumerable and retrieve a readonly result.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumerable"></param>
@@ -47,6 +47,34 @@ namespace FluentAsync
         public static async Task<IEnumerable<TCollection>> SelectManyAsync<T, TCollection>(this Task<IEnumerable<T>> enumerable, Func<T, IEnumerable<TCollection>> collectionSelector)
             => (await enumerable).SelectMany(collectionSelector);
 
+        /// <summary>
+        /// Asynchronously returns the first element of a sequence.
+        /// </summary>
+        /// <returns>The first element on the specified sequence.</returns>
+        public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> enumerable)
+            => (await enumerable).First();
+
+        /// <summary>
+        /// Asynchronously returns the first element of a sequence that satisfies the specified condition.
+        /// </summary>
+        /// <returns>The first element on the specified sequence.</returns>
+        public static async Task<T> FirstAsync<T>(this Task<IEnumerable<T>> enumerable, Func<T, bool> predicate)
+            => (await enumerable).First(predicate);
+
+        /// <summary>
+        /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> enumerable)
+            => (await enumerable).FirstOrDefault();
+
+        /// <summary>
+        /// Returns the first element of a sequence, that satisfies a condition, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> enumerable, Func<T, bool> predicate)
+            => (await enumerable).FirstOrDefault(predicate);
+
 
         #region ToEnumerableTask
 
@@ -57,6 +85,7 @@ namespace FluentAsync
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<HashSet<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<ICollection<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<Collection<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> ToEnumerableTask<T, TKey>(this Task<IGrouping<TKey, T>> enumerable) => await enumerable;
 
         #endregion
     }

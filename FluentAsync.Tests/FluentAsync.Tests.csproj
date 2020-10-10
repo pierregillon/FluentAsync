@@ -18,4 +18,10 @@
     <ProjectReference Include="..\FluentAsync\FluentAsync.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Examples\Resources\logs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
