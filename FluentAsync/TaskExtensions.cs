@@ -40,6 +40,13 @@ namespace FluentAsync
         public static async Task<IEnumerable<IGrouping<TKey, T>>> GroupByAsync<T, TKey>(this Task<IEnumerable<T>> enumerable, Func<T, TKey> keySelector)
             => (await enumerable).GroupBy(keySelector);
 
+        /// <summary>
+        /// Asynchronously projects each element of a sequence to an IEnumerable, and flatten the resulting sequence into one sequence.
+        /// </summary>
+        /// <returns>A Task that will contains elements that the result of invoking the one-to-many transform function on each element on the input sequence.</returns>
+        public static async Task<IEnumerable<TCollection>> SelectManyAsync<T, TCollection>(this Task<IEnumerable<T>> enumerable, Func<T, IEnumerable<TCollection>> collectionSelector)
+            => (await enumerable).SelectMany(collectionSelector);
+
 
         #region ToEnumerableTask
 
