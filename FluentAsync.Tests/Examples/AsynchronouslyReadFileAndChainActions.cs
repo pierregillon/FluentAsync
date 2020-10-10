@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -32,10 +31,7 @@ namespace FluentAsync.Tests.Examples
         {
             var lines = await File.ReadAllLinesAsync("./Examples/Resources/logs.txt");
 
-            var errorLines = lines
-                .Where(StartWithError)
-                .Pipe(RemoveDuplicatedLines)
-                .ToArray();
+            var errorLines = RemoveDuplicatedLines(lines.Where(StartWithError)).ToArray();
 
             errorLines
                 .Should()

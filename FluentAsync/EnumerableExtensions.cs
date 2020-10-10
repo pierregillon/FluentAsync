@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FluentAsync
 {
+    [DebuggerStepThrough]
     public static class EnumerableExtensions
     {
         /// <summary>
