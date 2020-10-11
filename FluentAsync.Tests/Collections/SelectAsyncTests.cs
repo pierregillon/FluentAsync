@@ -29,6 +29,7 @@ namespace FluentAsync.Tests.Collections
                 );
         }
 
-        private static Task<string> DownloadPage(string url) => Task.FromResult($"fake page content of {url}");
+        private static Task<string> DownloadPage(string url)
+            => Task.FromResult($"fake page content of {url}");
     }
 }

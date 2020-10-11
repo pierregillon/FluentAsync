@@ -1,6 +1,6 @@
 ﻿[WARNING] Unable to define the host.
 [INFO] The query is completed.
-[ERROR] Failed to process the command : unable to find a correct handler
+[ERROR] Unable to process the command : invalid cast exception.
 [INFO] The command qsdfjij32421 has been digested.
 [INFO] The command d6q66qsdf has been digested.
 [INFO] The command d9qqsdfqsf44 has been digested.

@@ -75,11 +75,46 @@ namespace FluentAsync
         public static async Task<T> FirstOrDefaultAsync<T>(this Task<IEnumerable<T>> enumerable, Func<T, bool> predicate)
             => (await enumerable).FirstOrDefault(predicate);
 
+        /// <summary>
+        /// Asynchronously sort the elements of a sequence in ascending order according to a key.
+        /// </summary>
+        /// <returns>An <see cref="IOrderedEnumerable{TElement}"/> whose elements are sorted according to a key.</returns>
+        public static async Task<IEnumerable<T>> OrderByAsync<T, TSelector>(this Task<IEnumerable<T>> enumerable, Func<T, TSelector> keySelector)
+            => (await enumerable).OrderBy(keySelector);
+
+        /// <summary>
+        /// Asynchronously sort the elements of a sequence in descending order according to a key.
+        /// </summary>
+        /// <returns>An <see cref="IOrderedEnumerable{TElement}"/> whose elements are sorted according to a key.</returns>
+        public static async Task<IEnumerable<T>> OrderByDescendingAsync<T, TSelector>(this Task<IEnumerable<T>> enumerable, Func<T, TSelector> keySelector)
+            => (await enumerable).OrderByDescending(keySelector);
+
+        /// <summary>
+        /// Asynchronously sort the elements of a sequence in ascending order according to the default comparer.
+        /// </summary>
+        /// <returns>An <see cref="IOrderedEnumerable{TElement}"/> whose elements are sorted.</returns>
+        public static async Task<IEnumerable<T>> OrderByAsync<T>(this Task<IEnumerable<T>> enumerable)
+            => (await enumerable).OrderBy(x => x);
+
+        /// <summary>
+        /// Asynchronously sort the elements of a sequence in descending order according to the default comparer.
+        /// </summary>
+        /// <returns>An <see cref="IOrderedEnumerable{TElement}"/> whose elements are sorted.</returns>
+        public static async Task<IEnumerable<T>> OrderByDescendingAsync<T>(this Task<IEnumerable<T>> enumerable)
+            => (await enumerable).OrderByDescending(x => x);
+
+        /// <summary>
+        /// Asynchronously apply an accumulator function over a sequence.
+        /// </summary>
+        /// <returns>The final accumulator value</returns>
+        public static async Task<T> AggregateAsync<T>(this Task<IEnumerable<T>> enumerable, Func<T, T, T> func)
+            => (await enumerable).Aggregate(func);
+
 
         #region ToEnumerableTask
 
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<List<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<T[]> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<T[]> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyCollection<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyList<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<HashSet<T>> enumerable) => await enumerable;

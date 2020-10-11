@@ -24,7 +24,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var collection = new[] { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
