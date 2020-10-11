@@ -9,6 +9,7 @@ namespace FluentAsync.Tests.FunctionalPrograming
     {
         private static double Pow2(double x) => Math.Pow(x, 2);
         private static double Add1(double x) => x + 1;
+        private static Task<string> DownloadFile(string url) => Task.FromResult("some content");
 
         [Fact]
         public void Pipe_functions()
@@ -32,6 +33,16 @@ namespace FluentAsync.Tests.FunctionalPrograming
             result
                 .Should()
                 .Be(101);
+        }
+
+        [Fact]
+        public async Task Asynchronously_pipe_asynchronous_functions()
+        {
+            var result = await Task.FromResult("https://somewebsite.com").PipeAsync(DownloadFile);
+
+            result
+                .Should()
+                .Be("some content");
         }
     }
 }
