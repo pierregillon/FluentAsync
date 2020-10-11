@@ -36,4 +36,4 @@ namespace FluentAsync.Tests.Tasks
             composedWords.Should().Be(145);
         }
     }
-}
+}   

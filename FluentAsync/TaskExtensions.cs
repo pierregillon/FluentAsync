@@ -124,16 +124,16 @@ namespace FluentAsync
         public static async Task<TResult> AggregateAsync<T, TResult>(this Task<IEnumerable<T>> enumerable, T seed, Func<T, T, T> func, Func<T, TResult> resultSelector)
             => (await enumerable).Aggregate(seed, func, resultSelector);
 
-        #region ToEnumerableTask
+        #region AsEnumerable
 
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<List<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<List<T>> enumerable) => await enumerable;
         public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<T[]> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyCollection<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<IReadOnlyList<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<HashSet<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<ICollection<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T>(this Task<Collection<T>> enumerable) => await enumerable;
-        public static async Task<IEnumerable<T>> ToEnumerableTask<T, TKey>(this Task<IGrouping<TKey, T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<IReadOnlyCollection<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<IReadOnlyList<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<HashSet<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<ICollection<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T>(this Task<Collection<T>> enumerable) => await enumerable;
+        public static async Task<IEnumerable<T>> AsEnumerable<T, TKey>(this Task<IGrouping<TKey, T>> enumerable) => await enumerable;
 
         #endregion
     }

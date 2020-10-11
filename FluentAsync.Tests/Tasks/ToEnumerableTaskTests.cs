@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -14,7 +15,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var collection = new List<string> { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
@@ -34,7 +35,7 @@ namespace FluentAsync.Tests.Tasks
         {
             IReadOnlyCollection<string> collection = new[] { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
@@ -44,7 +45,7 @@ namespace FluentAsync.Tests.Tasks
         {
             IReadOnlyList<string> collection = new[] { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
@@ -54,7 +55,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var hashset = new HashSet<string> { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(hashset).ToEnumerableTask();
+            var element = await Task.FromResult(hashset).AsEnumerable();
 
             element.Should().BeEquivalentTo(hashset);
         }
@@ -64,7 +65,7 @@ namespace FluentAsync.Tests.Tasks
         {
             ICollection<string> collection = new[] { SomeRandomString(), SomeRandomString(), SomeRandomString() };
 
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
@@ -74,7 +75,17 @@ namespace FluentAsync.Tests.Tasks
         {
             var collection = new Collection<string> { SomeRandomString(), SomeRandomString(), SomeRandomString() };
             
-            var element = await Task.FromResult(collection).ToEnumerableTask();
+            var element = await Task.FromResult(collection).AsEnumerable();
+
+            element.Should().BeEquivalentTo(collection);
+        }
+
+        [Fact]
+        public async Task Transform_a_task_of_grouping_into_a_task_of_enumerable()
+        {
+            var collection = new Collection<string> { SomeRandomString(), SomeRandomString(), SomeRandomString() }.GroupBy(x => x.Length).First();
+
+            var element = await Task.FromResult(collection).AsEnumerable();
 
             element.Should().BeEquivalentTo(collection);
         }
