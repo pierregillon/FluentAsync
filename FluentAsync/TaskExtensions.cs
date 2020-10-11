@@ -110,6 +110,19 @@ namespace FluentAsync
         public static async Task<T> AggregateAsync<T>(this Task<IEnumerable<T>> enumerable, Func<T, T, T> func)
             => (await enumerable).Aggregate(func);
 
+        /// <summary>
+        /// Asynchronously apply an accumulator function over a sequence. The specified seed value is used as the initial accumulator value.
+        /// </summary>
+        /// <returns>The final accumulator value</returns>
+        public static async Task<T> AggregateAsync<T>(this Task<IEnumerable<T>> enumerable, T seed, Func<T, T, T> func)
+            => (await enumerable).Aggregate(seed, func);
+
+        /// <summary>
+        /// Asynchronously apply an accumulator function over a sequence. The specified seed value is used as the initial accumulator value, and the specified function is used to select the result value.
+        /// </summary>
+        /// <returns>The final accumulator value</returns>
+        public static async Task<TResult> AggregateAsync<T, TResult>(this Task<IEnumerable<T>> enumerable, T seed, Func<T, T, T> func, Func<T, TResult> resultSelector)
+            => (await enumerable).Aggregate(seed, func, resultSelector);
 
         #region ToEnumerableTask
 
