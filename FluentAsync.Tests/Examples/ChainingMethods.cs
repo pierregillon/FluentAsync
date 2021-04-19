@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -10,7 +12,7 @@ namespace FluentAsync.Tests.Examples
         [Fact]
         public async Task Test()
         {
-            var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100));
+            var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100)).ToCovariantTask();
 
             var result = await asyncNumbers
                 .WhereAsync(x => x % 20 == 0)

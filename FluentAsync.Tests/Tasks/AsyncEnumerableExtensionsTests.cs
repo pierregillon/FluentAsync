@@ -32,10 +32,7 @@ namespace FluentAsync.Tests.Tasks
                 }
             }
 
-            private Task<int> Random()
-            {
-                return Task.FromResult(_random.Next());
-            }
+            private Task<int> Random() => Task.FromResult(_random.Next());
         }
     }
 }

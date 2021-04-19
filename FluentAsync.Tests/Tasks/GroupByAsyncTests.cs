@@ -8,19 +8,19 @@ namespace FluentAsync.Tests.Tasks
 {
     public class GroupByAsyncTests
     {
-        private readonly IEnumerable<Person> _persons = new List<Person> {
+        private static readonly IEnumerable<Person> Persons = new List<Person> {
             new Person { Name = "bob", Age = 5 },
             new Person { Name = "sarah", Age = 16 },
             new Person { Name = "john", Age = 20 },
             new Person { Name = "isaac", Age = 26 },
         };
 
-        private Task<IEnumerable<Person>> Task => System.Threading.Tasks.Task.FromResult(_persons);
+        private readonly ITask<IEnumerable<Person>> task = Task.FromResult(Persons).ToCovariantTask();
 
         [Fact]
         public async Task Group_elements_asynchronously()
         {
-            var groups = await Task.GroupByAsync(x => x.Age / 18);
+            var groups = await task.GroupByAsync(x => x.Age / 18);
 
             groups.Should().BeEquivalentTo(new[] {
                 new[] {
@@ -39,7 +39,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var groupByCallCount = 0;
 
-            var composedWords = await Task
+            var composedWords = await task
                 .GroupByAsync(x => {
                     groupByCallCount++;
                     return x.Age / 18;
@@ -55,7 +55,7 @@ namespace FluentAsync.Tests.Tasks
         [Fact]
         public async Task Can_be_chained()
         {
-            var results = await Task
+            var results = await task
                 .GroupByAsync(x => x.Age / 18)
                 .GroupByAsync(x => x.Key % 2)
                 .EnumerateAsync();
