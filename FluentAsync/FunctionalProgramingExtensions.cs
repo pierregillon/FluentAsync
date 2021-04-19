@@ -24,5 +24,16 @@ namespace FluentAsync
         /// </summary>
         /// <returns>The result of the function called with the caller.</returns>
         public static async Task<TResult> PipeAsync<T, TResult>(this Task<T> element, Func<T, Task<TResult>> action) => await action(await element);
+
+        /// <summary>
+        /// Apply an asynchronous function on a task result.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="element"></param>
+        /// <param name="projection"></param>
+        /// <returns></returns>
+        public static ITask<TResult> PipeAsync<T, TResult>(this ITask<T> element, Func<T, TResult> projection)
+            => element.Pipe(async x => projection(await element)).ToCovariantTask();
     }
 }
