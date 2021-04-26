@@ -12,9 +12,10 @@ namespace FluentAsync.Tests.Examples
         [Fact]
         public async Task Test()
         {
-            var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100)).ToCovariantTask();
+            var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100));
 
             var result = await asyncNumbers
+                .ToCovariantTask()
                 .WhereAsync(x => x % 20 == 0)
                 .OrderByDescendingAsync(x => x)
                 .SelectAsync(x => $"Element is {x}")

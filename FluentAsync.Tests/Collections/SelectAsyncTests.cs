@@ -7,7 +7,8 @@ namespace FluentAsync.Tests.Collections
 {
     public class SelectAsyncTests
     {
-        private readonly IEnumerable<string> _websites = new List<string> {
+        private readonly IEnumerable<string> _websites = new List<string>
+        {
             "https://eatorganic.com",
             "https://savetheplanet.com",
             "https://doyourpart.net"

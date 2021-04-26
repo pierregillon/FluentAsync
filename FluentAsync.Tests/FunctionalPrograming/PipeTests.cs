@@ -50,7 +50,7 @@ namespace FluentAsync.Tests.FunctionalPrograming
         {
             var result = await Task.FromResult("https://somewebsite.com")
                 .ToCovariantTask()
-                .PipeAsync(DownloadFile);
+                .PipeTaskAsync(DownloadFile);
 
             result
                 .Should()

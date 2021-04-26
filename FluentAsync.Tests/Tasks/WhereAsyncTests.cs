@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Tasks
@@ -21,6 +22,14 @@ namespace FluentAsync.Tests.Tasks
         public async Task Filters_elements_asynchronously()
         {
             var composedWords = await task.WhereAsync(x => x.Contains(" "));
+
+            composedWords.Should().BeEquivalentTo("hello world", "do it now");
+        }
+
+        [Fact]
+        public async Task Filters_elements_asynchronously_with_asynchronous_predicate()
+        {
+            var composedWords = await task.WhereAsync(x => TaskUtils.WaitAndReturn(x.Contains(" ")));
 
             composedWords.Should().BeEquivalentTo("hello world", "do it now");
         }

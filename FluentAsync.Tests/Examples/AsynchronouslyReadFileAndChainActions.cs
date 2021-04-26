@@ -24,7 +24,7 @@ namespace FluentAsync.Tests.Examples
                 .WhereAsync(x => x.Header == "[ERROR]")
                 .WhereAsync(x => !x.Description.ToLower().Contains("unhandled"))
                 .SelectAsync(x => x.Description)
-                .Pipe(RemoveDuplicatedLines)
+                .PipeTask(RemoveDuplicatedLines)
                 .OrderByAsync()
                 .EnumerateAsync();
 

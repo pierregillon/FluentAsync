@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Tasks
@@ -21,6 +22,16 @@ namespace FluentAsync.Tests.Tasks
         public async Task Project_each_element()
         {
             var results = await task.SelectAsync(x => x.Length);
+
+            results
+                .Should()
+                .BeEquivalentTo(11, 6, 9, 3);
+        }
+
+        [Fact]
+        public async Task Asynchronously_project_each_element()
+        {
+            var results = await task.SelectAsync(x => TaskUtils.WaitAndReturn(x.Length));
 
             results
                 .Should()
