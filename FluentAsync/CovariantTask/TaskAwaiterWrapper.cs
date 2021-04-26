@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace FluentAsync
+namespace FluentAsync.CovariantTask
 {
     public class TaskAwaiterWrapper<T> : INotifyCompletionExtended<T>
     {

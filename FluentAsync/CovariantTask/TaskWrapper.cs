@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluentAsync
+namespace FluentAsync.CovariantTask
 {
     public class TaskWrapper<T> : ITask<T>
     {

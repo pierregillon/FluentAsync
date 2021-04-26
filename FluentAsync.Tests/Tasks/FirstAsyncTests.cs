@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.CovariantTask;
 using FluentAsync.Tests.Utils;
 using Xunit;
 

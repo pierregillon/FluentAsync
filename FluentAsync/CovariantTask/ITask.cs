@@ -1,4 +1,4 @@
-﻿namespace FluentAsync
+﻿namespace FluentAsync.CovariantTask
 {
     public interface ITask<out T>
     {

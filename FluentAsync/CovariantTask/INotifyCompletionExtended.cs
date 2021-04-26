@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace FluentAsync
+namespace FluentAsync.CovariantTask
 {
     public interface INotifyCompletionExtended<out T> : INotifyCompletion
     {

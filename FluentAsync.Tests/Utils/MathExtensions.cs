@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FluentAsync.Tests.Tasks
+namespace FluentAsync.Tests.Utils
 {
     public static class MathExtensions
     {
