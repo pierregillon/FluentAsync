@@ -17,7 +17,7 @@ namespace FluentAsync.Tests.AsyncEnumerables
         {
             var numberGenerator = new NumberGenerator();
 
-            var numbers = await numberGenerator.GenerateNumbers(count).EnumerateAll();
+            var numbers = await numberGenerator.GenerateNumbers(count).EnumerateAsync();
 
             numbers.Should().HaveCount(count);
         }
@@ -33,7 +33,7 @@ namespace FluentAsync.Tests.AsyncEnumerables
             var numbers = await numberGenerator
                 .GenerateNumbers(count)
                 .WhereAsync(x => x < maxValue)
-                .EnumerateAll();
+                .EnumerateAsync();
 
             numbers.Should().HaveCount(count);
         }
@@ -49,7 +49,7 @@ namespace FluentAsync.Tests.AsyncEnumerables
             var numbers = await numberGenerator
                 .GenerateNumbers(count)
                 .WhereAsync(x => Task.FromResult(x < maxValue))
-                .EnumerateAll();
+                .EnumerateAsync();
 
             numbers.Should().HaveCount(count);
         }
@@ -65,7 +65,7 @@ namespace FluentAsync.Tests.AsyncEnumerables
             var numbers = await numberGenerator
                 .GenerateNumbers(count)
                 .SelectAsync(x => x * 10)
-                .EnumerateAll();
+                .EnumerateAsync();
 
             numbers.Should().Match(x => x.All(i => i < maxValue * 10));
         }
@@ -81,7 +81,7 @@ namespace FluentAsync.Tests.AsyncEnumerables
             var numbers = await numberGenerator
                 .GenerateNumbers(count)
                 .SelectAsync(x => TaskUtils.WaitAndReturn(x * 20))
-                .EnumerateAll();
+                .EnumerateAsync();
 
             numbers.Should().Match(x => x.All(i => i < maxValue * 20));
         }

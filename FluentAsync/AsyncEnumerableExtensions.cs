@@ -15,7 +15,7 @@ namespace FluentAsync
         /// <typeparam name="TResult"></typeparam>
         /// <param name="enumerable"></param>
         /// <returns></returns>
-        public static async Task<IReadOnlyCollection<TResult>> EnumerateAll<TResult>(this IAsyncEnumerable<TResult> enumerable)
+        public static async Task<IReadOnlyCollection<TResult>> EnumerateAsync<TResult>(this IAsyncEnumerable<TResult> enumerable)
         {
             var results = new List<TResult>();
             await foreach (var element in enumerable) {

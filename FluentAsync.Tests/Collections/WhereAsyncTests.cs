@@ -11,7 +11,7 @@ namespace FluentAsync.Tests.Collections
         {
             var results = await new[] { 1, 2, 3, 4 }
                 .WhereAsync(IsOddAsync)
-                .EnumerateAll();
+                .EnumerateAsync();
 
             results
                 .Should()

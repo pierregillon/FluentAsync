@@ -19,7 +19,7 @@ namespace FluentAsync.Tests.Collections
         {
             var results = await _websites
                 .SelectAsync(DownloadPage)
-                .EnumerateAll();
+                .EnumerateAsync();
 
             results
                 .Should()

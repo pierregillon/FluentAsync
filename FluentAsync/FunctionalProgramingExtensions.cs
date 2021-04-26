@@ -33,7 +33,7 @@ namespace FluentAsync
         /// <param name="element"></param>
         /// <param name="projection"></param>
         /// <returns></returns>
-        public static ITask<TResult> PipeTask<T, TResult>(this ITask<T> element, Func<T, TResult> projection)
+        public static ITask<TResult> PipeAsync<T, TResult>(this ITask<T> element, Func<T, TResult> projection)
             => element.Pipe(async x => projection(await element)).ToCovariantTask();
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace FluentAsync
         /// <param name="element"></param>
         /// <param name="projection"></param>
         /// <returns></returns>
-        public static ITask<TResult> PipeTaskAsync<T, TResult>(this ITask<T> element, Func<T, Task<TResult>> projection)
+        public static ITask<TResult> PipeAsync<T, TResult>(this ITask<T> element, Func<T, Task<TResult>> projection)
             => element.Pipe(async x => await projection(await element)).ToCovariantTask();
     }
 }
