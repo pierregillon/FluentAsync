@@ -44,5 +44,17 @@ namespace FluentAsync.Tests.FunctionalPrograming
                 .Should()
                 .Be("some content");
         }
+
+        [Fact]
+        public async Task Asynchronously_pipe_covariant_task()
+        {
+            var result = await Task.FromResult("https://somewebsite.com")
+                .ChainWith()
+                .PipeAsync(DownloadFile);
+
+            result
+                .Should()
+                .Be("some content");
+        }
     }
 }

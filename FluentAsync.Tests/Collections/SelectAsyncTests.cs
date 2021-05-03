@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Collections
 {
     public class SelectAsyncTests
     {
-        private readonly IEnumerable<string> _websites = new List<string> {
+        private readonly IEnumerable<string> _websites = new List<string>
+        {
             "https://eatorganic.com",
             "https://savetheplanet.com",
             "https://doyourpart.net"
@@ -18,7 +20,7 @@ namespace FluentAsync.Tests.Collections
         {
             var results = await _websites
                 .SelectAsync(DownloadPage)
-                .EnumerateAll();
+                .EnumerateAsync();
 
             results
                 .Should()
@@ -30,6 +32,6 @@ namespace FluentAsync.Tests.Collections
         }
 
         private static Task<string> DownloadPage(string url)
-            => Task.FromResult($"fake page content of {url}");
+            => TaskUtils.WaitAndReturn($"fake page content of {url}");
     }
 }

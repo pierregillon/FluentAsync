@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.CovariantTask;
 using Xunit;
 
 namespace FluentAsync.Tests.Tasks
 {
     public class SelectManyAsyncTests
     {
-        private readonly IEnumerable<TodoList> _todoLists = new List<TodoList> {
+        private static readonly IEnumerable<TodoList> TodoLists = new List<TodoList> {
             new TodoList {
                 Items = new[] {
                     new TodoListItem { Name = "Clean the house", IsDone = false },
@@ -23,12 +24,12 @@ namespace FluentAsync.Tests.Tasks
             }
         };
 
-        private Task<IEnumerable<TodoList>> Task => System.Threading.Tasks.Task.FromResult(_todoLists);
+        private readonly ITask<IEnumerable<TodoList>> task = Task.FromResult(TodoLists).ChainWith();
 
         [Fact]
         public async Task SelectMany_elements_asynchronously()
         {
-            var composedWords = await Task.SelectManyAsync(x => x.Items);
+            var composedWords = await task.SelectManyAsync(x => x.Items);
 
             composedWords.Should().BeEquivalentTo(
                 new TodoListItem { Name = "Clean the house", IsDone = false },
@@ -43,7 +44,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var selectManyCount = 0;
 
-            var composedWords = await Task.SelectManyAsync(x => {
+            var composedWords = await task.SelectManyAsync(x => {
                 selectManyCount++;
                 return x.Items;
             });
@@ -58,7 +59,7 @@ namespace FluentAsync.Tests.Tasks
         [Fact]
         public async Task Can_be_chained()
         {
-            var results = await Task
+            var results = await task
                 .SelectManyAsync(x => x.Items)
                 .SelectManyAsync(x => x.Name.Take(3))
                 .EnumerateAsync();
