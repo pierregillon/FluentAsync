@@ -22,7 +22,7 @@ namespace FluentAsync.Tests.Tasks
             }
 
             static ITask<string> BuildCovariantTask() => GenerateIntegers()
-                .ToCovariantTask()
+                .ChainWith()
                 .WhereAsync(x => x % 20 == 0)
                 .OrderByDescendingAsync(x => x)
                 .SelectAsync(x => $"Element is {x}")
@@ -59,7 +59,7 @@ namespace FluentAsync.Tests.Tasks
 
             static ITask<IEnumerable<int>> BuildCovariantTask()
             {
-                var task = GenerateIntegers().ToCovariantTask();
+                var task = GenerateIntegers().ChainWith();
                 for (var i = 1; i < count; i++) {
                     var i1 = i;
                     task = task

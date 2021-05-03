@@ -24,7 +24,7 @@ namespace FluentAsync.Tests.Tasks
             }
         };
 
-        private readonly ITask<IEnumerable<TodoList>> task = System.Threading.Tasks.Task.FromResult(TodoLists).ToCovariantTask();
+        private readonly ITask<IEnumerable<TodoList>> task = Task.FromResult(TodoLists).ChainWith();
 
         [Fact]
         public async Task SelectMany_elements_asynchronously()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Collections
@@ -31,6 +32,6 @@ namespace FluentAsync.Tests.Collections
         }
 
         private static Task<string> DownloadPage(string url)
-            => Task.FromResult($"fake page content of {url}");
+            => TaskUtils.WaitAndReturn($"fake page content of {url}");
     }
 }

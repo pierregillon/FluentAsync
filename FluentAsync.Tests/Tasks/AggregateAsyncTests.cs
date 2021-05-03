@@ -13,7 +13,7 @@ namespace FluentAsync.Tests.Tasks
 
         private readonly ITask<IEnumerable<int>> task = Elements
             .Pipe(Task.FromResult)
-            .ToCovariantTask();
+            .ChainWith();
 
         [Fact]
         public async Task Aggregate_elements_asynchronously()

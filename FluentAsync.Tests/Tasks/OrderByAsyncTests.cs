@@ -15,7 +15,7 @@ namespace FluentAsync.Tests.Tasks
             "cuz"
         };
 
-        private readonly ITask<IEnumerable<string>> task = Task.FromResult(Elements).ToCovariantTask();
+        private readonly ITask<IEnumerable<string>> task = Task.FromResult(Elements).ChainWith();
 
         [Fact]
         public async Task Asynchronously_order_ascending_elements()

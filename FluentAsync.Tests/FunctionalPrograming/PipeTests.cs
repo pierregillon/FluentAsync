@@ -49,7 +49,7 @@ namespace FluentAsync.Tests.FunctionalPrograming
         public async Task Asynchronously_pipe_covariant_task()
         {
             var result = await Task.FromResult("https://somewebsite.com")
-                .ToCovariantTask()
+                .ChainWith()
                 .PipeAsync(DownloadFile);
 
             result

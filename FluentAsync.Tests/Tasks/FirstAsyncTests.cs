@@ -17,7 +17,7 @@ namespace FluentAsync.Tests.Tasks
             "cuz"
         };
 
-        private readonly ITask<IEnumerable<string>> task = Task.FromResult(Elements).ToCovariantTask();
+        private readonly ITask<IEnumerable<string>> task = Task.FromResult(Elements).ChainWith();
 
         [Fact]
         public async Task Get_the_first_element_of_an_enumerable_task()
@@ -29,7 +29,7 @@ namespace FluentAsync.Tests.Tasks
         [Fact]
         public void Throw_error_when_getting_the_first_element_of_an_empty_enumerable_task()
         {
-            var emptyTask = TaskUtils.WaitAndReturn(new List<string>()).ToCovariantTask();
+            var emptyTask = TaskUtils.WaitAndReturn(new List<string>()).ChainWith();
 
             Func<Task> gettingFirst = async () => await emptyTask.FirstAsync();
 
@@ -48,7 +48,7 @@ namespace FluentAsync.Tests.Tasks
         [Fact]
         public async Task Returns_default_element_on_empty_enumerable()
         {
-            var emptyTask = TaskUtils.WaitAndReturn(new List<string>()).ToCovariantTask();
+            var emptyTask = TaskUtils.WaitAndReturn(new List<string>()).ChainWith();
 
             var result = await emptyTask.FirstOrDefaultAsync();
 

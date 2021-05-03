@@ -11,12 +11,12 @@ namespace FluentAsync.Tests.Examples
     public class ChainingMethods
     {
         [Fact]
-        public async Task Test()
+        public async Task ChainAsyncMethods()
         {
             var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100));
 
             var result = await asyncNumbers
-                .ToCovariantTask()
+                .ChainWith()
                 .WhereAsync(x => x % 20 == 0)
                 .OrderByDescendingAsync(x => x)
                 .SelectAsync(x => $"Element is {x}")

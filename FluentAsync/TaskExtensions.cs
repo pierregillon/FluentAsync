@@ -7,6 +7,10 @@ namespace FluentAsync
     [DebuggerStepThrough]
     public static class TaskExtensions
     {
-        public static ITask<T> ToCovariantTask<T>(this Task<T> task) => new TaskWrapper<T>(task);
+        /// <summary>
+        /// Transform a Task{T} into a covariant ITask{T}, that allows fluent extension methods.
+        /// </summary>
+        /// <returns></returns>
+        public static ITask<T> ChainWith<T>(this Task<T> task) => new TaskWrapper<T>(task);
     }
 }

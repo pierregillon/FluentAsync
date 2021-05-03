@@ -16,7 +16,7 @@ namespace FluentAsync.Tests.Tasks
             new Person { Name = "isaac", Age = 26 },
         };
 
-        private readonly ITask<IEnumerable<Person>> task = Task.FromResult(Persons).ToCovariantTask();
+        private readonly ITask<IEnumerable<Person>> task = Task.FromResult(Persons).ChainWith();
 
         [Fact]
         public async Task Group_elements_asynchronously()

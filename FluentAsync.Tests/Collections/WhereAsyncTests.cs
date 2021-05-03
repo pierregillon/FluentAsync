@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Collections
@@ -19,6 +20,6 @@ namespace FluentAsync.Tests.Collections
         }
 
         private static Task<bool> IsOddAsync(int element)
-            => Task.FromResult(element % 2 == 1);
+            => TaskUtils.WaitAndReturn(element % 2 == 1);
     }
 }
