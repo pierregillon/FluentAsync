@@ -150,3 +150,6 @@ ITask<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 }).ChainWith();
 var result = await task.WhereAsync( x => x > 0); // FOUND
 ```
 ```ITask<T>``` declares also the ```.GetAwaiter()``` method to be used with the key word ```await```.
+
+# License
+This repository is under [the MIT license](/License.MD).
