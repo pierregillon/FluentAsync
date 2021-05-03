@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.CovariantTask;
 using Xunit;
 
 namespace FluentAsync.Tests.Examples
@@ -16,6 +17,7 @@ namespace FluentAsync.Tests.Examples
         public async Task Select_distinct_errors_in_a_log_file()
         {
             var lines = await ReadAllLinesOfLogFileAsync()
+                .ChainWith()
                 .SelectAsync(x => new {
                     Header = Regex.Match(x, HEADER_PATTERN).Value,
                     Description = Regex.Replace(x, HEADER_PATTERN, string.Empty).Trim()

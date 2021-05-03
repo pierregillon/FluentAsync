@@ -2,25 +2,37 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.CovariantTask;
+using FluentAsync.Tests.Utils;
 using Xunit;
 
 namespace FluentAsync.Tests.Tasks
 {
     public class SelectAsyncTests
     {
-        private readonly IEnumerable<string> _elements = new List<string> {
+        private static readonly IEnumerable<string> Elements = new List<string> {
             "hello world",
             "please",
             "do it now",
             "cuz"
         };
 
-        protected Task<IEnumerable<string>> Task => System.Threading.Tasks.Task.FromResult(_elements);
+        private readonly ITask<IEnumerable<string>> task = Task.FromResult(Elements).ChainWith();
 
         [Fact]
         public async Task Project_each_element()
         {
-            var results = await Task.SelectAsync(x => x.Length);
+            var results = await task.SelectAsync(x => x.Length);
+
+            results
+                .Should()
+                .BeEquivalentTo(11, 6, 9, 3);
+        }
+
+        [Fact]
+        public async Task Asynchronously_project_each_element()
+        {
+            var results = await task.SelectAsync(x => TaskUtils.WaitAndReturn(x.Length));
 
             results
                 .Should()
@@ -32,7 +44,7 @@ namespace FluentAsync.Tests.Tasks
         {
             var selectCallCount = 0;
 
-            var composedWords = await Task
+            var composedWords = await task
                 .SelectAsync(x => {
                     selectCallCount++;
                     return x.Length;
@@ -48,7 +60,7 @@ namespace FluentAsync.Tests.Tasks
         [Fact]
         public async Task Can_be_chained()
         {
-            var results = await Task
+            var results = await task
                 .SelectAsync(x => x.Length)
                 .SelectAsync(x => x % 2)
                 .EnumerateAsync();

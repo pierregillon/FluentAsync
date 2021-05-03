@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAsync.CovariantTask;
 using Xunit;
 
 namespace FluentAsync.Tests.Examples
@@ -8,11 +11,12 @@ namespace FluentAsync.Tests.Examples
     public class ChainingMethods
     {
         [Fact]
-        public async Task Test()
+        public async Task ChainAsyncMethods()
         {
             var asyncNumbers = Task.FromResult(Enumerable.Range(0, 100));
 
             var result = await asyncNumbers
+                .ChainWith()
                 .WhereAsync(x => x % 20 == 0)
                 .OrderByDescendingAsync(x => x)
                 .SelectAsync(x => $"Element is {x}")
