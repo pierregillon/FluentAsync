@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.0.1</Version>
+    <Authors>Pierre GILLON</Authors>
+    <Company />
+    <PackageProjectUrl>https://github.com/pierregillon/FluentAsync</PackageProjectUrl>
+    <Description>This modest library provides extension methods on Task and IAsyncEnumerable, to create fluent calls.</Description>
+    <RepositoryUrl>https://github.com/pierregillon/FluentAsync</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

@@ -11,6 +11,14 @@ As developer, we write a lot of code. Our aim is to produce compact and clean co
 Theses extension methods are only ***syntactic sugar*** and do not provide any different behaviour or better performance 
 of the underneath concepts.
 
+## Nuget package
+
+You can install [the package from NuGet](https://www.nuget.org/packages/FluentAsync).
+
+```shell
+dotnet add package FluentAsync
+```
+
 ## Examples
 
 Chaining async linq extension methods :
