@@ -19,6 +19,7 @@ Chaining async linq extension methods :
     Task<IEnumerable<int>> asyncNumbers = Task.FromResult(Enumerable.Range(0, 100));
 
     string result = await asyncNumbers
+        .ChainWith()
         .WhereAsync(x => x % 20 == 0)
         .OrderByDescendingAsync(x => x)
         .SelectAsync(x => $"Element is {x}")
@@ -29,12 +30,12 @@ Chaining async linq extension methods :
         .Be("Element is 80, Element is 60, Element is 40, Element is 20, Element is 0");
 ```
 
-Producing IAsyncEnumerable and asynchronously (but sequencially) enumerate the results :
+Producing IAsyncEnumerable from standard collection and asynchronously (but sequencially) enumerate the results :
 ```csharp
 
     var results = await _websites
         .SelectAsync(DownloadPage)
-        .EnumerateAll();
+        .EnumerateAsync();
 
     results
         .Should()
@@ -95,6 +96,7 @@ We can easily chain the async methods :
     public async Task Select_distinct_errors_in_a_log_file()
     {
         IReadOnlyCollection<string> lines = await ReadAllLinesOfLogFileAsync()
+            .ChainWith()
             .SelectAsync(x => new {
                 Header = Regex.Match(x, HEADER_PATTERN).Value,
                 Description = Regex.Replace(x, HEADER_PATTERN, string.Empty).Trim()
@@ -117,12 +119,14 @@ We can easily chain the async methods :
 
 Have a look on the [source code](/FluentAsync.Tests/Examples/AsynchronouslyReadFileAndChainActions.cs).
 
-## Limitations
-The extension methods are declared on ***Task\<IEnumerable\<T>>*** which is not an interface type 
+## Under the hood
+
+### Non covariant Task
+Extending ```Task<T>``` and ```Task<IEnumerable<T>>``` can be very tricky because it is not an interface type 
 and so do no support **[covariance](https://docs.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance)**.
 
-It implies that all types which are derived from ***IEnumerable\<T>***, and provided in Task, for example, ***Task<List\<T>>***
-do not have the extension methods.
+It implies that all types which are derived from ```IEnumerable<T>```, and provided in ```Task```, for example, ```Task<List<T>>```
+do not have the extension methods declared on ```Task<IEnumerable<T>>```.
 
 ```csharp
 Task<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 });
@@ -130,34 +134,19 @@ Task<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 });
 var result = await task.WhereAsync( x => x > 0); // NOT FOUND
 ```
 
-As a workaround, as long as .NET do not provide ***ITask\<out T>*** (so supporting covariance), your can do :
+### Solution: a covariant ITask\<T\>
+If you look closely to the ```.ChainWith()``` method, you'll find out it returns a ```ITask\<T\>```.
+```csharp
+   Task<List<T>> task = Task.FromResult(new List<int>{ 1, -2, 3 });
+   ITask<List<T>> task = task.ChainWith();
+```
+The main idea here is to wrap a Task to an equivalent that support covariant conversion :
+```interface ITask<out T>```.
+We can now define extension methods on ```ITask<IEnumerable<T>>``` and they will be available for all subtypes.
 
 ```csharp
-Task<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 });
+ITask<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 }).ChainWith();
 
-var result = await task
-    .AsEnumerable()
-    .WhereAsync( x => x > 0); // FOUND
+var result = await task.WhereAsync( x => x > 0); // FOUND
 ```
-
-The current types that have the AsEnumerable() are :
-* List\<T>
-* T[]
-* IReadOnlyCollection\<T>
-* IReadOnlyList\<T>
-* HashSet\<T>
-* ICollection\<T>
-* Collection\<T>
-* IGrouping\<TKey, T>
-
-If you are using a derived type from ***IEnumerable\<T>*** which is not present from ubove, you can still do :
-
-```csharp
-Task<List<int>> task = Task.FromResult(new List<int>{ 1, -2, 3 });
-
-var result = await task
-    .PipeAsync(x => (IEnumerable<int>)x)
-    .WhereAsync( x => x > 0); // FOUND
-```
-
-
+```ITask<T>``` declares also the ```.GetAwaiter()``` method to be used with the key word ```await```.
