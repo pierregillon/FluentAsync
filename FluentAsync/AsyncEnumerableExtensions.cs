@@ -72,5 +72,48 @@ namespace FluentAsync
                 yield return await asynchronousProjection(element);
             }
         }
+
+        /// <summary>
+        /// Asynchronously returns the first element of an <see cref="IAsyncEnumerable{T}"/>.
+        /// </summary>
+        /// <returns>The first element on the specified sequence.</returns>
+        public static async Task<T> FirstAsync<T>(this IAsyncEnumerable<T> enumerable)
+            => await enumerable.FirstAsync(_ => true);
+
+        /// <summary>
+        /// Asynchronously returns the first element of an <see cref="IAsyncEnumerable{T}"/> that satisfies the specified condition.
+        /// </summary>
+        /// <returns>The first element on the specified sequence.</returns>
+        public static async Task<T> FirstAsync<T>(this IAsyncEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            var (success, firstElement) = await enumerable.TryGetFirstElement(predicate);
+            return success ? firstElement : throw new InvalidOperationException("The sequence contains no element");
+        }
+
+        /// <summary>
+        /// Returns the first element of an <see cref="IAsyncEnumerable{T}"/>, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <returns></returns>
+        public static Task<T> FirstOrDefaultAsync<T>(this IAsyncEnumerable<T> enumerable) 
+            => enumerable.FirstOrDefaultAsync(_ => true);
+
+        /// <summary>
+        /// Returns the first element of an <see cref="IAsyncEnumerable{T}"/>, that satisfies a condition, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<T> FirstOrDefaultAsync<T>(this IAsyncEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            var (success, firstElement) = await enumerable.TryGetFirstElement(predicate);
+            return success ? firstElement : default;
+        }
+
+        private static async Task<(bool success, T firstElement)> TryGetFirstElement<T>(this IAsyncEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            await foreach (var element in enumerable) {
+                if (!predicate(element)) continue;
+                return (true, element);
+            }
+            return (false, default);
+        }
     }
 }
