@@ -72,21 +72,21 @@ namespace FluentAsync.Tests.FunctionalPrograming
             5.Pipe(add1AndMultiplyBy2).Should().Be(12);
         }
 
-        //[Fact]
-        //public void Composing_functions_with_operator()
-        //{
-        //    Func<int, int, int> add = (x, y) => x + y;
-        //    ExtendedDelegate<int, int> add1 = add.Curry(1).Ext();
+        [Fact]
+        public void Composing_functions_with_operator()
+        {
+            Func<int, int, int> add = (x, y) => x + y;
+            ExtendedDelegate<int, int> add1 = add.Curry(1).Ext();
 
-        //    Func<int, int, int> multiply = (x, y) => x * y;
-        //    ExtendedDelegate<int, int> multiplyBy2 = multiply.Curry(2).Ext();
+            Func<int, int, int> multiply = (x, y) => x * y;
+            ExtendedDelegate<int, int> multiplyBy2 = multiply.Curry(2).Ext();
 
-        //    var add1AndMultiplyBy2 = add1 & multiplyBy2;
+            var add1AndMultiplyBy2 = add1 & multiplyBy2;
 
-        //    add1AndMultiplyBy2
-        //        .Exec(5)
-        //        .Should()
-        //        .Be(12);
-        //}
+            add1AndMultiplyBy2
+                .Exec(5)
+                .Should()
+                .Be(12);
+        }
     }
 }
